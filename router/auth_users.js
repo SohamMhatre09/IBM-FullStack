@@ -6,8 +6,7 @@ const SECRET_KEY = 'your_secret_key';
 let users = [{ username: "username", password: "password" }];
 
 const isValid = (username) => {
-  //returns boolean
-  //write code to check is the username is valid
+  return users.some((user) => user.username === username);
 };
 
 const authenticatedUser = (username, password) => {
