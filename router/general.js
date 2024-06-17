@@ -20,13 +20,14 @@ public_users.post("/register", (req, res) => {
 });
 
 // Get the book list available in the shop..
-public_users.get("/", function (req, res) {
-  return res.status(300).json(books);
+public_users.get("/", async (req, res) => {
+  const booklist = await books();
+  return res.status(200).json(booklist);
 });
 
 // Get book details based on ISBN
-public_users.get("/isbn/:isbn", function (req, res) {
-  const book_isbn = books[req.params.isbn];
+public_users.get("/isbn/:isbn", async (req, res) => {
+  const book_isbn = await books[req.params.isbn];
 
   if (book) {
     return res.status(200).json(book);
@@ -36,7 +37,7 @@ public_users.get("/isbn/:isbn", function (req, res) {
 });
 
 // Get book details based on author
-public_users.get("/author/:author", function (req, res) {
+public_users.get("/author/:author", async (req, res) => {
   const name = req.params.author.toLowerCase().trim();
   const authorBooks = [];
 
@@ -45,7 +46,7 @@ public_users.get("/author/:author", function (req, res) {
       books[isbn].author &&
       books[isbn].author.toLowerCase().trim() === name
     ) {
-      authorBooks.push(books[isbn]);
+      await authorBooks.push(books[isbn]);
     }
   }
 
@@ -57,13 +58,13 @@ public_users.get("/author/:author", function (req, res) {
 });
 
 // Get all books based on title
-public_users.get("/title/:title", function (req, res) {
+public_users.get("/title/:title",async (req, res) => {
   const title = req.params.title.toLowerCase().trim();
   const authorBooks = [];
 
   for (const isbn in books) {
     if (books[isbn].title && books[isbn].title.toLowerCase().trim() === title) {
-      authorBooks.push(books[isbn]);
+      await authorBooks.push(books[isbn]);
     }
   }
 
