@@ -3,8 +3,8 @@ let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
-const SECRET_KEY = 'your_secret_key';
-const jwt = require('jsonwebtoken');
+const SECRET_KEY = "your_secret_key";
+const jwt = require("jsonwebtoken");
 public_users.post("/register", (req, res) => {
   const { username, password } = req.body;
   for (const user of users) {
@@ -21,13 +21,13 @@ public_users.post("/register", (req, res) => {
 
 // Get the book list available in the shop..
 public_users.get("/", async (req, res) => {
-  const booklist = await books();
+  const booklist = await books;
   return res.status(200).json(booklist);
 });
 
 // Get book details based on ISBN
 public_users.get("/isbn/:isbn", async (req, res) => {
-  const book_isbn = await books[req.params.isbn];
+  const book = await books[req.params.isbn];
 
   if (book) {
     return res.status(200).json(book);
@@ -58,7 +58,7 @@ public_users.get("/author/:author", async (req, res) => {
 });
 
 // Get all books based on title
-public_users.get("/title/:title",async (req, res) => {
+public_users.get("/title/:title", async (req, res) => {
   const title = req.params.title.toLowerCase().trim();
   const authorBooks = [];
 
